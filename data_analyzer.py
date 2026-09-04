@@ -58,6 +58,13 @@ def make_plot(df, goal_col):
     fig.savefig("data_overview.png")
     print("已生成 data_overview.png")
 
+def find_outliers(df, goal_col):
+    threshold = df[goal_col].mean() - 0.08  # 警戒线：平均 - 0.08
+    outliers = df[df[goal_col] < threshold]  # 挑出低于警戒线的行
+    print(f"\n低{goal_col}批次（低于平均-0.08）：")
+    print(outliers)
+    return outliers
+
 
 def main():
     path = input("请输入要分析的 CSV 文件路径（完整路径，例如 C:/Users/biyun/Desktop/yield_data.csv）：\n")
@@ -66,6 +73,7 @@ def main():
     summarize(df)
     correlate(df)
     groupby_temp(df, goal_col)
+    find_outliers(df, goal_col)
     print("读到的前几行：")
     print(df.head())
     make_plot(df, goal_col)
